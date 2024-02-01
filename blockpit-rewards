@@ -199,7 +199,7 @@ function getBlockpitTemplate(element, index) {
             sell_amount: '',
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'airdrop',
+            transaction_type: 'Cashback',
             note: `${Number(element.rebate_rate) === 0 ? 'Manual or perk' : (element.fiat_amount_rewarded*Number(element.rebate_rate)/10000).toFixed(2) + ' €'} cashback as ${Number(element.amount).toFixed(2)} PLU for spending ${element.fiat_amount_rewarded/100} € at ${element.fiat_transaction?.card_transactions.description || element.contis_transaction?.description}. Approval notice: ${element.reason}`,
             linked_transaction: ''
         }
@@ -219,7 +219,7 @@ function getBlockpitTemplate(element, index) {
             sell_amount: element.amount,
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'trade',
+            transaction_type: 'Trade',
             note: element.payout_destination_type,
             linked_transaction: ''
         }
@@ -239,7 +239,7 @@ function getBlockpitTemplate(element, index) {
             sell_amount: element.amount,
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'withdrawal',
+            transaction_type: 'Withdrawal',
             note: element.payout_destination_type,
             linked_transaction: ''
         }
@@ -259,7 +259,7 @@ function getBlockpitTemplate(element, index) {
             sell_amount: element.fiat_amount,
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'trade',
+            transaction_type: 'Trade',
             note: '',
             linked_transaction: ''
         }
