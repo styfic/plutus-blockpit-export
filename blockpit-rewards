@@ -161,21 +161,14 @@ function downloadCSV(csv, filename) {
     downloadLink.click();
 }
 
-// Rewards Export
-getRewards().then(response => convertForBlockpit(response)).then(response => flattenJson(response)).then(result => jsonToCsv(result)).then(csv => downloadCSV(csv, "blockpit_rewards"));
-// Orders Export
-getOrders().then(response => convertForBlockpit(response)).then(response => flattenJson(response)).then(result => jsonToCsv(result)).then(csv => downloadCSV(csv, "blockpit_orders"));
-// Withdrawals Export
-getWithdrawals().then(response => convertForBlockpit(response)).then(response => flattenJson(response)).then(result => jsonToCsv(result)).then(csv => downloadCSV(csv, "blockpit_withdrawals"));
-
 function blockpitDate(string) {
     let date = new Date(string);
-    let dd = ('0' + date.getDate()).slice(-2);
-    let mm = ('0' + (date.getMonth() + 1)).slice(-2);
-    let yyyy = date.getFullYear();
-    let hh = ('0' + date.getHours()).slice(-2);
-    let min = ('0' + date.getMinutes()).slice(-2);
-    let ss = ('0' + date.getSeconds()).slice(-2);
+    let dd = ('0' + date.getUTCDate()).slice(-2);
+    let mm = ('0' + (date.getUTCMonth() + 1)).slice(-2);
+    let yyyy = date.getUTCFullYear();
+    let hh = ('0' + date.getUTCHours()).slice(-2);
+    let min = ('0' + date.getUTCMinutes()).slice(-2);
+    let ss = ('0' + date.getUTCSeconds()).slice(-2);
     let blockpitDate = `${dd}.${mm}.${yyyy} ${hh}:${min}:${ss}`
     return blockpitDate;
 }
@@ -194,6 +187,7 @@ function getBlockpitTemplate(element, index) {
 
     // Case Rewards
     if (typeof element.reason !== 'undefined' && element.reason !== "Rejected by admin" && element.available === true) {
+
         let template = {
             id: index,
             exchange_name: 'Plutus DEX',
@@ -201,12 +195,12 @@ function getBlockpitTemplate(element, index) {
             transaction_date: blockpitDate(element.updatedAt),
             buy_asset: 'PLU',
             buy_amount: element.amount,
-            sell_asset: 'EUR',
-            sell_amount: (Number(element.rebate_rate) === 0 ? 100 : Number(element.rebate_rate)) * element.fiat_amount_rewarded / 10000,
+            sell_asset: '',
+            sell_amount: '',
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'trade',
-            note: `${element.contis_transaction ? element.contis_transaction.description : ''} ${element.reason || ''}`,
+            transaction_type: 'Cashback',
+            note: `${Number(element.rebate_rate) === 0 ? 'Manual or perk' : (element.fiat_amount_rewarded*Number(element.rebate_rate)/10000).toFixed(2) + ' €'} cashback as ${Number(element.amount).toFixed(2)} PLU for spending ${element.fiat_amount_rewarded/100} € at ${element.fiat_transaction?.card_transactions.description || element.contis_transaction?.description}. Approval notice: ${element.reason}`,
             linked_transaction: ''
         }
         return template
@@ -225,7 +219,7 @@ function getBlockpitTemplate(element, index) {
             sell_amount: element.amount,
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'trade',
+            transaction_type: 'Trade',
             note: element.payout_destination_type,
             linked_transaction: ''
         }
@@ -245,7 +239,7 @@ function getBlockpitTemplate(element, index) {
             sell_amount: element.amount,
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'withdrawal',
+            transaction_type: 'Withdrawal',
             note: element.payout_destination_type,
             linked_transaction: ''
         }
@@ -265,7 +259,7 @@ function getBlockpitTemplate(element, index) {
             sell_amount: element.fiat_amount,
             fee_asset: '',
             fee_amount: '',
-            transaction_type: 'trade',
+            transaction_type: 'Trade',
             note: '',
             linked_transaction: ''
         }
@@ -273,3 +267,10 @@ function getBlockpitTemplate(element, index) {
     }
 
 }
+
+// Rewards Export
+getRewards().then(response => convertForBlockpit(response)).then(response => flattenJson(response)).then(result => jsonToCsv(result)).then(csv => downloadCSV(csv, "blockpit_rewards"));
+// Orders Export
+getOrders().then(response => convertForBlockpit(response)).then(response => flattenJson(response)).then(result => jsonToCsv(result)).then(csv => downloadCSV(csv, "blockpit_orders"));
+// Withdrawals Export
+getWithdrawals().then(response => convertForBlockpit(response)).then(response => flattenJson(response)).then(result => jsonToCsv(result)).then(csv => downloadCSV(csv, "blockpit_withdrawals"));
