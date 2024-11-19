@@ -18,4 +18,4 @@ This tool exports your Plutus rewards, orders and withdrawals to a Blockpit-comp
 
 ## Support
 
-If you like this work and want to support me, you can buy your Blockpit license using my reflink: https://blockpit.cello.so/uo3QOOjANGZ . If you want to join Plutus, my reflink is 
+If you like this work and want to support me, you can buy your Blockpit license using my reflink: https://blockpit.cello.so/uo3QOOjANGZ . If you want to join Plutus, my reflink is https://dex.plutus.it/auth/referee/signup?refId=7GvN93
