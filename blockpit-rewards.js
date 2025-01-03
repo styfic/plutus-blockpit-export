@@ -200,7 +200,7 @@ function getBlockpitTemplate(element, index) {
             fee_asset: '',
             fee_amount: '',
             transaction_type: 'Cashback',
-            note: `${Number(element.rebate_rate) === 0 ? 'Manual or perk' : (element.fiat_amount_rewarded*Number(element.rebate_rate)/10000).toFixed(2) + ' €'} cashback as ${Number(element.amount).toFixed(2)} PLU for spending ${element.fiat_amount_rewarded/100} € at ${element.fiat_transaction?.card_transactions.description || element.contis_transaction?.description}. Approval notice: ${element.reason}`,
+            note: `${Number(element.rebate_rate) === 0 ? 'Manual or perk' : (element.fiat_amount_rewarded*Number(element.rebate_rate)/10000).toFixed(2) + ' €'} cashback as ${Number(element.amount).toFixed(2)} PLU for spending ${element.fiat_amount_rewarded/100} € at ${element.fiat_transaction?.card_transactions?.description || element.contis_transaction?.description}. Approval notice: ${element.reason}`,
             linked_transaction: ''
         }
         return template
